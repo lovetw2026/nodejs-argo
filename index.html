@@ -1,0 +1,375 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>网络攻防实验室 | CyberShield</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&family=Noto+Sans+SC:wght@400;700&display=swap');
+        
+        :root {
+            --primary: #00ff9d;
+            --bg: #0a0e17;
+            --card: #121822;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Noto Sans SC', system-ui, sans-serif;
+            background: var(--bg);
+            color: #e0e0e0;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        .navbar {
+            background: rgba(10, 14, 23, 0.95);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid var(--primary);
+        }
+        
+        .nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-family: 'Roboto Mono', monospace;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-shadow: 0 0 10px var(--primary);
+        }
+        
+        .nav-links a {
+            color: #e0e0e0;
+            text-decoration: none;
+            margin-left: 2rem;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+        
+        .hero {
+            height: 100vh;
+            background: linear-gradient(rgba(10,14,23,0.85), rgba(10,14,23,0.95)), 
+                        url('https://picsum.photos/id/1015/1920/1080') center/cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+        }
+        
+        .hero-content {
+            max-width: 800px;
+            padding: 2rem;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(90deg, #00ff9d, #00b8ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+        
+        .btn {
+            display: inline-block;
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            padding: 12px 32px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s;
+            margin: 0 10px;
+        }
+        
+        .btn:hover {
+            background: var(--primary);
+            color: #0a0e17;
+            transform: translateY(-3px);
+            box-shadow: 0 0 20px var(--primary);
+        }
+        
+        .section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 100px 20px;
+        }
+        
+        h2 {
+            font-size: 2.8rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            color: var(--primary);
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+        
+        .card {
+            background: var(--card);
+            border-radius: 12px;
+            padding: 2rem;
+            border: 1px solid #1f2a44;
+            transition: all 0.4s;
+            height: 100%;
+        }
+        
+        .card:hover {
+            transform: translateY(-15px);
+            border-color: var(--primary);
+            box-shadow: 0 20px 40px rgba(0, 255, 157, 0.15);
+        }
+        
+        .card h3 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+        
+        .attack { border-left: 5px solid #ff3b5c; }
+        .defense { border-left: 5px solid #00ff9d; }
+        
+        .terminal {
+            background: #000;
+            font-family: 'Roboto Mono', monospace;
+            padding: 1.5rem;
+            border-radius: 8px;
+            color: #00ff9d;
+            margin: 2rem 0;
+            white-space: pre-wrap;
+            overflow-x: auto;
+        }
+        
+        footer {
+            background: #0a0e17;
+            text-align: center;
+            padding: 3rem;
+            border-top: 1px solid #1f2a44;
+        }
+        
+        .tag {
+            display: inline-block;
+            background: rgba(0, 255, 157, 0.1);
+            color: var(--primary);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            margin: 5px;
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="nav-content">
+            <div class="logo">CYBERSHIELD</div>
+            <div class="nav-links">
+                <a href="#attacks">攻击类型</a>
+                <a href="#defenses">防御策略</a>
+                <a href="#demo">实战演示</a>
+                <a href="#resources">学习资源</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>网络攻防实验室</h1>
+            <p>了解网络攻击原理，掌握防御技术<br>守护数字世界安全</p>
+            <a href="#attacks" class="btn">探索攻击类型</a>
+            <a href="#defenses" class="btn">学习防御策略</a>
+        </div>
+    </section>
+
+    <!-- 攻击类型 -->
+    <section id="attacks" class="section">
+        <h2>常见网络攻击类型</h2>
+        <div class="grid">
+            <div class="card attack">
+                <h3>🔥 DDoS 分布式拒绝服务</h3>
+                <p>通过海量僵尸网络流量淹没目标服务器，使正常用户无法访问。</p>
+                <div class="tag">Layer 3/4/7</div>
+                <div class="tag">高危</div>
+            </div>
+            
+            <div class="card attack">
+                <h3>🛡️ SQL 注入</h3>
+                <p>通过在输入框构造恶意SQL语句，绕过认证或窃取数据库数据。</p>
+                <div class="tag">Web攻击</div>
+                <div class="tag">OWASP Top 10</div>
+            </div>
+            
+            <div class="card attack">
+                <h3>🎣 钓鱼攻击 (Phishing)</h3>
+                <p>伪造可信网站或邮件，诱骗用户输入账号密码或点击恶意链接。</p>
+                <div class="tag">社会工程</div>
+            </div>
+            
+            <div class="card attack">
+                <h3>🕵️ 中间人攻击 (MITM)</h3>
+                <p>攻击者拦截通信双方数据，窃听或篡改传输内容。</p>
+                <div class="tag">无线网络</div>
+            </div>
+            
+            <div class="card attack">
+                <h3>🐞 零日漏洞利用</h3>
+                <p>利用未知或未修复的安全漏洞发起攻击。</p>
+                <div class="tag">高级持久威胁</div>
+            </div>
+            
+            <div class="card attack">
+                <h3>📡 ARP 欺骗</h3>
+                <p>在局域网内伪造ARP响应，实现流量劫持。</p>
+                <div class="tag">局域网</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 防御策略 -->
+    <section id="defenses" class="section" style="background: #0f1622;">
+        <h2>有效防御策略</h2>
+        <div class="grid">
+            <div class="card defense">
+                <h3>🔐 多因素认证 (MFA)</h3>
+                <p>结合密码 + 短信/APP/硬件令牌，大幅提升账户安全。</p>
+            </div>
+            <div class="card defense">
+                <h3>🛡️ Web应用防火墙 (WAF)</h3>
+                <p>实时拦截SQL注入、XSS、恶意请求等常见Web攻击。</p>
+            </div>
+            <div class="card defense">
+                <h3>🌐 HTTPS + TLS 1.3</h3>
+                <p>加密所有传输数据，防止中间人窃听和篡改。</p>
+            </div>
+            <div class="card defense">
+                <h3>📊 入侵检测与响应 (IDS/EDR)</h3>
+                <p>实时监控异常行为，快速响应安全事件。</p>
+            </div>
+            <div class="card defense">
+                <h3>🔄 零信任架构 (Zero Trust)</h3>
+                <p>不信任任何内外网络，持续验证每个访问请求。</p>
+            </div>
+            <div class="card defense">
+                <h3>📚 安全意识培训</h3>
+                <p>定期对员工进行钓鱼演练和安全教育。</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 实战演示 -->
+    <section id="demo" class="section">
+        <h2>简单攻防演示</h2>
+        <div style="max-width: 700px; margin: 0 auto;">
+            <div class="terminal" id="terminal">
+$ 模拟环境已启动...
+$ 尝试 SQL 注入测试：
+1' OR '1'='1
+[检测到攻击] WAF 已拦截
+            </div>
+            <div style="text-align: center; margin-top: 20px;">
+                <button onclick="simulateAttack()" style="padding: 12px 30px; background: #ff3b5c; color: white; border: none; border-radius: 50px; cursor: pointer; font-size: 1.1rem;">
+                    🚀 模拟一次攻击
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- 资源 -->
+    <section id="resources" class="section" style="background: #0f1622;">
+        <h2>学习资源推荐</h2>
+        <div class="grid">
+            <div class="card">
+                <h3>📖 书籍</h3>
+                <ul style="margin-top: 1rem; padding-left: 1.5rem;">
+                    <li>《Web安全深度剖析》</li>
+                    <li>《黑客攻防技术宝典》</li>
+                    <li>《网络安全实践》</li>
+                </ul>
+            </div>
+            <div class="card">
+                <h3>🌐 在线平台</h3>
+                <ul style="margin-top: 1rem; padding-left: 1.5rem;">
+                    <li><a href="https://www.hackthebox.com" target="_blank" style="color:var(--primary)">HackTheBox</a></li>
+                    <li><a href="https://tryhackme.com" target="_blank" style="color:var(--primary)">TryHackMe</a></li>
+                    <li><a href="https://ctftime.org" target="_blank" style="color:var(--primary)">CTF 竞赛平台</a></li>
+                </ul>
+            </div>
+            <div class="card">
+                <h3>🛠️ 常用工具</h3>
+                <p>Burp Suite、Wireshark、Metasploit、Nmap、Nessus</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 网络攻防实验室 - 仅供学习与教育用途</p>
+        <p style="margin-top: 10px; opacity: 0.6;">保护网络安全，从你我做起</p>
+    </footer>
+
+    <script>
+        function simulateAttack() {
+            const term = document.getElementById('terminal');
+            term.innerHTML = `$ 模拟环境已启动...\n$ 正在发起 DDoS 模拟攻击...\n\n[警告] 流量异常激增！\n[防御] Cloudflare WAF 已启动自动缓解\n[状态] 攻击已被阻断，服务器正常运行`;
+            
+            setTimeout(() => {
+                term.innerHTML += `\n\n[成功] 防御生效！`;
+            }, 1800);
+        }
+        
+        // 简单滚动导航高亮
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('.section');
+            const navLinks = document.querySelectorAll('.nav-links a');
+            
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (scrollY >= sectionTop - 300) {
+                    current = section.getAttribute('id');
+                }
+            });
+            
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === '#' + current) {
+                    link.classList.add('active');
+                }
+            });
+        });
+        
+        // 添加一些粒子背景效果（可选）
+        console.log('%c网络攻防实验室已就绪 🚀', 'color:#00ff9d; font-size:16px; font-family:monospace');
+    </script>
+</body>
+</html>
